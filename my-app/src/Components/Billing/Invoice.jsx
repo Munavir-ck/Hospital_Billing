@@ -1,24 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../Axios/axios";
+import { get_invoice } from "../../API/api";
 
 function Invoice({ invoice_id }) {
   const [invoice, setInvoice] = useState("");
   const [patient, setPatient] = useState("");
 
   useEffect(() => {
-    axios
-      .get("/get_invoice", {
-        params: {
-          invoicID: invoice_id,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        setInvoice(res.data.invoice);
-        setPatient(res.data.patientData);
-      });
-
-    console.log(invoice, 33333333);
+    get_invoice(invoice_id).then((res) => {
+      setInvoice(res.data.invoice);
+      setPatient(res.data.patientData);
+    });
   }, [invoice_id]);
 
   return (
@@ -148,7 +140,7 @@ function Invoice({ invoice_id }) {
                           Subtotal
                         </th>
                         <td className="pt-6 pl-3 pr-4 text-sm text-right text-slate-500 sm:pr-6 md:pr-0">
-                        {invoice.total}
+                          {invoice.total}
                         </td>
                       </tr>
 
@@ -185,7 +177,7 @@ function Invoice({ invoice_id }) {
                           Total
                         </th>
                         <td className="pt-4 pl-3 pr-4 text-sm font-normal text-right text-slate-700 sm:pr-6 md:pr-0">
-                        {invoice.total}
+                          {invoice.total}
                         </td>
                       </tr>
                     </tfoot>

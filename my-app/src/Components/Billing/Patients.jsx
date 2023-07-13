@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-
+import { get_patients } from "../../API/api";
 import axios from "../../Axios/axios";
 
 function Patients({ setInvoice_id, invoice_id }) {
   const [patients, setPatients] = useState([]);
 
   useEffect(() => {
-    axios.get(`/get_patients`).then((res) => {
-      setPatients(res.data);
-      setInvoice_id(res.data[0]._id);
-    });
+    get_patients().then((res)=>{
+        
+        setPatients(res.data);
+        setInvoice_id(res.data[0]._id);
+    })
+   
   }, []);
 
   const handleClick = (id) => {
